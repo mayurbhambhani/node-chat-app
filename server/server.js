@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
     socket.on('createMessage', function (email) {
         console.log("email create request", email);
         email.createdAt = new Date().getTime();
-        socket.emit('newMessage', email);
+        io.emit('newMessage', email);
     })
 });
 
