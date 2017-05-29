@@ -14,10 +14,18 @@ let server = http.createServer(app);
 let io = socketIO(server);
 
 io.on("connection", (socket) => {
+
     console.log("new user connected..");
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
+
+    socket.on('createMessage', function (email) {
+        console.log("email create request", email);
+        email.createdAt = new Date().getTime();
+        socket.emit('newMessage', email);
+    })
 });
 
 
