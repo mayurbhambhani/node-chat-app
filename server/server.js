@@ -5,6 +5,7 @@ const express = require("express");
 const socketIO = require("socket.io");
 const http = require("http");
 
+const message = require("./utils/message");
 
 let app = express();
 let public_folder = path.join(__dirname, "../", "public");
@@ -16,15 +17,15 @@ let io = socketIO(server);
 io.on("connection", (socket) => {
 
     console.log("new user connected..");
-
+    socket.broadcast.emit('newMessage', message.generateMessage('admin', 'new user joined..'));
+    socket.emit('newMessage', message.generateMessage('admin', 'welcome to the chat app..'));
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
 
     socket.on('createMessage', function (email) {
         console.log("email create request", email);
-        email.createdAt = new Date().getTime();
-        io.emit('newMessage', email);
+        socket.broadcast.emit('newMessage', message.generateMessage(email.from, email.text));
     })
 });
 
