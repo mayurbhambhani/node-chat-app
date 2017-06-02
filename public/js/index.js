@@ -1,5 +1,4 @@
 
-
 var socket = io();
 
 socket.on('connect', function () {
@@ -28,11 +27,12 @@ socket.on('newMessage', function (data) {
 jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
     let msg = {
-        from: 'User1',
+        from: `user:${Math.floor(Math.random() * 100)}`,
         text: jQuery('[name=message]').val()
     };
     // console.log(msg);
     socket.emit('createMessage', msg, function (message) {
-        console.log(`message ${JSON.stringify(message)} recieved by server`)
+        console.log(`message ${JSON.stringify(message)} recieved by server`);
+        jQuery('[name=message]').val("");
     });
 })
