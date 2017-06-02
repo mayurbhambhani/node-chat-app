@@ -1,6 +1,8 @@
 
 var socket = io();
 
+let userName = Math.floor(Math.random() * 100);
+
 socket.on('connect', function () {
     console.log("connected to server..");
 });
@@ -27,7 +29,7 @@ socket.on('newMessage', function (data) {
 jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
     let msg = {
-        from: `user:${Math.floor(Math.random() * 100)}`,
+        from: `user:${userName}`,
         text: jQuery('[name=message]').val()
     };
     // console.log(msg);
