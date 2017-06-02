@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
     socket.on('createMessage', function (email, callback) {
         console.log("email create request", email);
         //   io.emit('newMessage', message.generateMessage(email.from, email.text));
-        socket.broadcast.emit('newMessage', message.generateMessage(email.from, email.text));
+        io.emit('newMessage', message.generateMessage(email.from, email.text));
         callback(email);
     })
 });
