@@ -28,7 +28,12 @@ io.on("connection", (socket) => {
         //   io.emit('newMessage', message.generateMessage(email.from, email.text));
         io.emit('newMessage', message.generateMessage(email.from, email.text));
         callback(email);
-    })
+    });
+
+    socket.on('createLocationMessage', function (location, callback) {
+        io.emit('newLocationMessage', message.generateLocationMessage(location));
+        callback(location);
+    });
 });
 
 
