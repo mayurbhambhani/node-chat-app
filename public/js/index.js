@@ -12,17 +12,19 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (data) {
-    console.log("you've got mail!!", data);
+    // console.log("you've got mail!!", data);
+    let formattedTime = moment(data.createdAt).format("h:mm a");
     let li = jQuery('<li></li>')
-    li.text(`${data.from}:${data.text}`);
+    li.text(`${formattedTime} ${data.from}:${data.text}`);
     jQuery('#messages').append(li);
 });
 
 socket.on('newLocationMessage', function (location) {
+    let formattedTime = moment(location.createdAt).format("h:mm a");
     let li = jQuery('<li></li>');
     let a = jQuery('<a target="_blank">My Current Location</a>');
     a.attr("href", location.url);
-    li.text(`user:${userName}:`);
+    li.text(`${formattedTime} user:${userName}:`);
     li.append(a);
     jQuery('#messages').append(li);
 });
