@@ -2,6 +2,20 @@
 var socket = io();
 
 let userName = Math.floor(Math.random() * 100);
+function scrollToBottom() {
+    let messages = jQuery("#messages");
+    let scrollHeight = messages.prop("scrollHeight");
+    let scrollTop = messages.prop("scrollTop");
+    let clientHeight = messages.prop("clientHeight");
+    let newMessage = messages.children("li:last-child");
+    let lastMessage = newMessage.prev();
+    let newMessageHeight = newMessage.innerHeight();
+    let lastMessageHeight = lastMessage.innerHeight();
+    if ((scrollTop + clientHeight + lastMessageHeight + newMessageHeight) >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
+    }
+
+}
 
 socket.on('connect', function () {
     console.log("connected to server..");
@@ -24,7 +38,9 @@ socket.on('newMessage', function (data) {
     // let li = jQuery('<li></li>')
     // li.text(`${formattedTime} ${data.from}:${data.text}`);
     jQuery('#messages').append(html);
+    scrollToBottom();
 });
+
 
 socket.on('newLocationMessage', function (location) {
 
@@ -42,6 +58,7 @@ socket.on('newLocationMessage', function (location) {
     // li.text(`${formattedTime} user:${userName}:`);
     // li.append(a);
     jQuery('#messages').append(html);
+    scrollToBottom();
 });
 
 // socket.emit('createMessage', {
